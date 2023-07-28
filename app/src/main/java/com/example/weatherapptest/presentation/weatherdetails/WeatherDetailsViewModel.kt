@@ -1,5 +1,6 @@
 package com.example.weatherapptest.presentation.weatherdetails
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapptest.core.base.viewmodel.BaseViewModel
 import com.example.weatherapptest.core.network.NetworkResponse
@@ -26,14 +27,17 @@ class WeatherDetailsViewModel @Inject constructor(
     fun getWeatherDetails() {
         emitEvent(WeatherDetailsViewStates.ShowLoad(true))
         viewModelScope.launch {
+            val localWeatherDetails = localWeatherDetailsUseCase.invoke()
+            if (localWeatherDetails != null) {
+                emitEvent(WeatherDetailsViewStates.ShowLoad(false))
+                emitEvent(WeatherDetailsViewStates.SetWeatherDetails(localWeatherDetails))
+            }
             when (val result = remoteWeatherDetailsUseCase.invoke(31.5322138, 74.2846168)) {
                 is NetworkResponse.Success -> {
-                    emitEvent(WeatherDetailsViewStates.ShowLoad(false))
                     emitEvent(WeatherDetailsViewStates.SetWeatherDetails(result.data))
                 }
                 is NetworkResponse.Error -> {
-                    emitEvent(WeatherDetailsViewStates.ShowLoad(false))
-                    emitEvent(WeatherDetailsViewStates.ShowError(result.error.message))
+                    //emitEvent(WeatherDetailsViewStates.ShowError(result.error.message))
                 }
             }
         }

@@ -14,6 +14,7 @@ data class WeatherDetailsResponse(
     val dt: Int,
     val id: Int,
     val timezone: Int,
+    val createdAt: Long?,
     val visibility: Int,
     val name: String,
     val base: String,

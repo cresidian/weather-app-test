@@ -17,17 +17,21 @@ class WeatherRepositoryImpl(
         longitude: Double
     ): NetworkResponse<WeatherDetailsResponse> {
         val response = executeApiCall {
-
             apiEndpoint.getCurrentWeatherDetails(latitude = latitude, longitude = longitude)
         }
         if (response is NetworkResponse.Success) {
-
+            saveWeatherDetailsToLocalDb(response.data)
         }
         return response
     }
 
-    override suspend fun getWeatherDetailsFromLocalDb(): WeatherDetailsResponse {
-        TODO("Not yet implemented")
+    override suspend fun getWeatherDetailsFromLocalDb(): WeatherDetailsResponse? {
+        return weatherAppDatabase.weatherDetailsDao().getWeatherDetails()
+    }
+
+    override suspend fun saveWeatherDetailsToLocalDb(weatherDetails: WeatherDetailsResponse) {
+        weatherAppDatabase.weatherDetailsDao()
+            .insert(weatherDetails.copy(createdAt = System.currentTimeMillis()))
     }
 
 }

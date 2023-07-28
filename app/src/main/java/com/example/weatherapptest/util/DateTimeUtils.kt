@@ -128,3 +128,9 @@ fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String 
 fun getCurrentDateTime(): Date {
     return Calendar.getInstance().time
 }
+
+fun convertMillisecondsToDate(milliseconds: Long): String {
+    val dateFormat = SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault())
+    val date = Date(milliseconds)
+    return dateFormat.format(date)
+}

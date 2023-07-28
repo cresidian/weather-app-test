@@ -7,7 +7,7 @@ import com.example.weatherapptest.domain.model.responses.WeatherDetailsResponse
 interface WeatherDetailsDao : BaseDao<WeatherDetailsResponse> {
 
     @Query("SELECT * FROM weather_details_table")
-    suspend fun getWeatherDetails(): WeatherDetailsResponse
+    suspend fun getWeatherDetails(): WeatherDetailsResponse?
 
     @Query("DELETE FROM weather_details_table")
     suspend fun deleteWeatherDetails()

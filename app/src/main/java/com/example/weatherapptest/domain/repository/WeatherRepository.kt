@@ -9,5 +9,7 @@ interface WeatherRepository {
         longitude: Double
     ): NetworkResponse<WeatherDetailsResponse>
 
-    suspend fun getWeatherDetailsFromLocalDb(): WeatherDetailsResponse
+    suspend fun getWeatherDetailsFromLocalDb(): WeatherDetailsResponse?
+
+    suspend fun saveWeatherDetailsToLocalDb(weatherDetails: WeatherDetailsResponse)
 }
