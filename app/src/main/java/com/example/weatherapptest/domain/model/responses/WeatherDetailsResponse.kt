@@ -9,7 +9,7 @@ import java.io.Serializable
 
 @Entity(tableName = "weather_details_table")
 data class WeatherDetailsResponse(
-    @PrimaryKey(autoGenerate = true) var roomId: Int? = null,
+    @PrimaryKey(autoGenerate = false) var roomId: Int = 1,
     val cod: Int,
     val dt: Int,
     val id: Int,
