@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.weatherapptest.core.base.activty.BaseActivity
-import com.example.weatherapptest.databinding.ActivityMainBinding
+import com.example.weatherapptest.databinding.ActivityWeatherDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -14,11 +14,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class WeatherDetailsActivity : BaseActivity() {
 
-    private lateinit var bind: ActivityMainBinding
+    private lateinit var bind: ActivityWeatherDetailsBinding
     private val viewModel: WeatherDetailsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bind = ActivityMainBinding.inflate(layoutInflater)
+        bind = ActivityWeatherDetailsBinding.inflate(layoutInflater)
         val view = bind.root
         setContentView(view)
         init()

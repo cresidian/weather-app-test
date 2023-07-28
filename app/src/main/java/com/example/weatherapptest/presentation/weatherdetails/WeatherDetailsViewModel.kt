@@ -23,7 +23,7 @@ class WeatherDetailsViewModel @Inject constructor(
             WeatherDetailsViewStates()
     }
 
-    private fun getWeatherDetails() {
+    fun getWeatherDetails() {
         emitEvent(WeatherDetailsViewStates.ShowLoad(true))
         viewModelScope.launch {
             when (val result = remoteWeatherDetailsUseCase.invoke(31.5322138, 74.2846168)) {
