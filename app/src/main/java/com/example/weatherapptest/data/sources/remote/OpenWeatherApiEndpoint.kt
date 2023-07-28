@@ -1,8 +1,7 @@
 package com.example.weatherapptest.data.sources.remote
 
-import com.example.weatherapptest.domain.model.WeatherDetails
-import com.example.weatherapptest.domain.model.requests.*
 import com.example.weatherapptest.domain.model.responses.*
+import com.example.weatherapptest.util.Constants
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -20,7 +19,7 @@ interface OpenWeatherApiEndpoint {
     suspend fun getCurrentWeatherDetails(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
-        @Query("appid") apiKey: String
-    ): WeatherDetails
+        @Query("appid") apiKey: String = Constants.OPEN_WEATHER_API_KEY
+    ): WeatherDetailsResponse
 
 }

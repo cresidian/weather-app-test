@@ -19,13 +19,14 @@ class WeatherDetailsViewModel @Inject constructor(
     sealed class WeatherDetailsViewStates {
         data class ShowLoad(val isShow: Boolean) : WeatherDetailsViewStates()
         data class ShowError(val error: String) : WeatherDetailsViewStates()
-        data class SetWeatherDetails(val weatherDetailsResponse: WeatherDetailsResponse) : WeatherDetailsViewStates()
+        data class SetWeatherDetails(val weatherDetailsResponse: WeatherDetailsResponse) :
+            WeatherDetailsViewStates()
     }
 
     private fun getWeatherDetails() {
         emitEvent(WeatherDetailsViewStates.ShowLoad(true))
         viewModelScope.launch {
-            when (val result = remoteWeatherDetailsUseCase.invoke()) {
+            when (val result = remoteWeatherDetailsUseCase.invoke(31.5322138, 74.2846168)) {
                 is NetworkResponse.Success -> {
                     emitEvent(WeatherDetailsViewStates.ShowLoad(false))
                     emitEvent(WeatherDetailsViewStates.SetWeatherDetails(result.data))

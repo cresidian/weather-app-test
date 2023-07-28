@@ -3,10 +3,7 @@ package com.example.weatherapptest.data.sources.local.database.converters
 import androidx.room.TypeConverter
 import com.example.weatherapptest.domain.model.TemperatureDetails
 import com.example.weatherapptest.domain.model.responses.WeatherDetailsResponse
-import com.example.weatherapptest.util.Constants
 import com.google.gson.Gson
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Converters {
 

@@ -10,13 +10,6 @@ interface WeatherDetailsDao : BaseDao<WeatherDetailsResponse> {
     suspend fun getWeatherDetails(): WeatherDetailsResponse
 
     @Query("DELETE FROM weather_details_table")
-    suspend fun deleteWeatherDetails() {
-        deleteAll()
-    }
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeatherDetail(weatherDetails: WeatherDetailsResponse) {
-        insert(weatherDetails)
-    }
+    suspend fun deleteWeatherDetails()
 
 }

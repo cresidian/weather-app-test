@@ -1,19 +1,23 @@
 package com.example.weatherapptest.domain.model.responses
 
-
+import androidx.room.Embedded
 import androidx.room.Entity
-import com.example.weatherapptest.domain.model.*
+import androidx.room.PrimaryKey
+import com.example.weatherapptest.domain.model.TemperatureDetails
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 @Entity(tableName = "weather_details_table")
 data class WeatherDetailsResponse(
-    val base: String,
+    @PrimaryKey(autoGenerate = true) var roomId: Int? = null,
     val cod: Int,
     val dt: Int,
     val id: Int,
-    @SerializedName("main")
-    val temperatureDetails: TemperatureDetails,
-    val name: String,
     val timezone: Int,
     val visibility: Int,
-)
+    val name: String,
+    val base: String,
+    @Embedded(prefix = "temperature_")
+    @SerializedName("main")
+    val temperatureDetails: TemperatureDetails,
+) : Serializable

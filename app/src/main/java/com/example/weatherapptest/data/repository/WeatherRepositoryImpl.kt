@@ -4,7 +4,7 @@ import com.example.weatherapptest.core.network.NetworkResponse
 import com.example.weatherapptest.core.network.base.BaseNetworkApi
 import com.example.weatherapptest.data.sources.local.database.WeatherAppDatabase
 import com.example.weatherapptest.data.sources.remote.OpenWeatherApiEndpoint
-import com.example.weatherapptest.domain.model.WeatherDetails
+import com.example.weatherapptest.domain.model.responses.WeatherDetailsResponse
 import com.example.weatherapptest.domain.repository.WeatherRepository
 
 class WeatherRepositoryImpl(
@@ -12,10 +12,13 @@ class WeatherRepositoryImpl(
     private val weatherAppDatabase: WeatherAppDatabase
 ) : BaseNetworkApi(), WeatherRepository {
 
-    override suspend fun getWeatherDetailsFromApi(): NetworkResponse<WeatherDetails> {
+    override suspend fun getWeatherDetailsFromApi(
+        latitude: Double,
+        longitude: Double
+    ): NetworkResponse<WeatherDetailsResponse> {
         val response = executeApiCall {
 
-            apiEndpoint.getCurrentWeatherDetails()
+            apiEndpoint.getCurrentWeatherDetails(latitude = latitude, longitude = longitude)
         }
         if (response is NetworkResponse.Success) {
 
@@ -23,7 +26,7 @@ class WeatherRepositoryImpl(
         return response
     }
 
-    override suspend fun getWeatherDetailsFromLocalDb(): WeatherDetails? {
+    override suspend fun getWeatherDetailsFromLocalDb(): WeatherDetailsResponse {
         TODO("Not yet implemented")
     }
 
