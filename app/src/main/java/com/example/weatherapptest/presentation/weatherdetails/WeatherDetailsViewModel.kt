@@ -1,6 +1,5 @@
 package com.example.weatherapptest.presentation.weatherdetails
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapptest.core.base.viewmodel.BaseViewModel
 import com.example.weatherapptest.core.network.NetworkResponse
@@ -18,26 +17,28 @@ class WeatherDetailsViewModel @Inject constructor(
 ) : BaseViewModel<WeatherDetailsViewModel.WeatherDetailsViewStates>() {
 
     sealed class WeatherDetailsViewStates {
-        data class ShowLoad(val isShow: Boolean) : WeatherDetailsViewStates()
-        data class ShowError(val error: String) : WeatherDetailsViewStates()
-        data class SetWeatherDetails(val weatherDetailsResponse: WeatherDetailsResponse) :
+        data class Loading(val isShow: Boolean) : WeatherDetailsViewStates()
+        data class Error(val error: String) : WeatherDetailsViewStates()
+        data class WeatherDetails(val weatherDetailsResponse: WeatherDetailsResponse) :
             WeatherDetailsViewStates()
     }
 
     fun getWeatherDetails() {
-        emitEvent(WeatherDetailsViewStates.ShowLoad(true))
+        emitEvent(WeatherDetailsViewStates.Loading(true))
         viewModelScope.launch {
             val localWeatherDetails = localWeatherDetailsUseCase.invoke()
             if (localWeatherDetails != null) {
-                emitEvent(WeatherDetailsViewStates.ShowLoad(false))
-                emitEvent(WeatherDetailsViewStates.SetWeatherDetails(localWeatherDetails))
+                emitEvent(WeatherDetailsViewStates.Loading(false))
+                emitState(WeatherDetailsViewStates.WeatherDetails(localWeatherDetails))
             }
             when (val result = remoteWeatherDetailsUseCase.invoke(31.5322138, 74.2846168)) {
                 is NetworkResponse.Success -> {
-                    emitEvent(WeatherDetailsViewStates.SetWeatherDetails(result.data))
+                    emitEvent(WeatherDetailsViewStates.Loading(false))
+                    emitState(WeatherDetailsViewStates.WeatherDetails(result.data))
                 }
                 is NetworkResponse.Error -> {
-                    //emitEvent(WeatherDetailsViewStates.ShowError(result.error.message))
+                    emitEvent(WeatherDetailsViewStates.Loading(false))
+                    emitEvent(WeatherDetailsViewStates.Error(result.error.message))
                 }
             }
         }

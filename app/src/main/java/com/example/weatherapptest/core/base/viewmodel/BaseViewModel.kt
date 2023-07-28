@@ -24,7 +24,7 @@ abstract class BaseViewModel<STATE> : ViewModel() {
         _viewStates.value = event
     }
 
-    protected fun emitEvent(
+    protected fun emitState(
         event: STATE,
         dispatcher: CoroutineDispatcher = Dispatchers.Main,
         isSingleLife: Boolean = false
@@ -38,7 +38,7 @@ abstract class BaseViewModel<STATE> : ViewModel() {
         }
     }
 
-    protected fun emitOneTimeEvent(
+    protected fun emitEvent(
         event: STATE,
         dispatcher: CoroutineDispatcher = Dispatchers.Main
     ) {

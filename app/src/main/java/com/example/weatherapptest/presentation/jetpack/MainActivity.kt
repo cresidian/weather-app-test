@@ -10,15 +10,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import com.example.weatherapptest.R
-import com.example.weatherapptest.domain.model.responses.WeatherDetailsResponse
 import com.example.weatherapptest.presentation.jetpack.ui.theme.Purple700
 import com.example.weatherapptest.presentation.jetpack.ui.theme.WeatherAppTestTheme
 import com.example.weatherapptest.presentation.weatherdetails.WeatherDetailsViewModel
@@ -61,16 +58,16 @@ class MainActivity : ComponentActivity() {
                     ) {
                         val state by viewModel.viewStates.collectAsState()
                         when (state) {
-                            is WeatherDetailsViewModel.WeatherDetailsViewStates.ShowLoad -> {
-                                val isShow = (state as WeatherDetailsViewModel.WeatherDetailsViewStates.ShowLoad).isShow
+                            is WeatherDetailsViewModel.WeatherDetailsViewStates.Loading -> {
+                                val isShow = (state as WeatherDetailsViewModel.WeatherDetailsViewStates.Loading).isShow
                                 LoadingIndicator(isShow)
                             }
-                            is WeatherDetailsViewModel.WeatherDetailsViewStates.ShowError -> {
-                                val error = (state as WeatherDetailsViewModel.WeatherDetailsViewStates.ShowError).error
+                            is WeatherDetailsViewModel.WeatherDetailsViewStates.Error -> {
+                                val error = (state as WeatherDetailsViewModel.WeatherDetailsViewStates.Error).error
                                 Toast.makeText(LocalContext.current,error,Toast.LENGTH_SHORT).show()
                             }
-                            is WeatherDetailsViewModel.WeatherDetailsViewStates.SetWeatherDetails -> {
-                                val weatherDetailsResponse = (state as WeatherDetailsViewModel.WeatherDetailsViewStates.SetWeatherDetails).weatherDetailsResponse
+                            is WeatherDetailsViewModel.WeatherDetailsViewStates.WeatherDetails -> {
+                                val weatherDetailsResponse = (state as WeatherDetailsViewModel.WeatherDetailsViewStates.WeatherDetails).weatherDetailsResponse
                                 WeatherDetail(weatherDetailsResponse)
                             }
                             else -> {}
