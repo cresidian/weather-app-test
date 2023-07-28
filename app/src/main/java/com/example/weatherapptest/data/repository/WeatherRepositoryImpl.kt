@@ -30,8 +30,7 @@ class WeatherRepositoryImpl(
     }
 
     override suspend fun saveWeatherDetailsToLocalDb(weatherDetails: WeatherDetailsResponse) {
-        weatherAppDatabase.weatherDetailsDao()
-            .insert(weatherDetails.copy(createdAt = System.currentTimeMillis()))
+        weatherAppDatabase.weatherDetailsDao().insert(weatherDetails.copy(createdAt = System.currentTimeMillis()))
     }
 
 }

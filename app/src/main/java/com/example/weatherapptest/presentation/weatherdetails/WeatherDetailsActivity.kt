@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +20,7 @@ import com.example.weatherapptest.R
 import com.example.weatherapptest.app.theme.Purple700
 import com.example.weatherapptest.app.theme.WeatherAppTestTheme
 import com.example.weatherapptest.core.util.isInternetConnected
-import com.example.weatherapptest.presentation.weatherdetails.composables.LoadingIndicator
+import com.example.weatherapptest.presentation.composables.LoadingIndicator
 import com.example.weatherapptest.presentation.weatherdetails.composables.WeatherDetail
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,22 +47,17 @@ class WeatherDetailsActivity : ComponentActivity() {
                         }, backgroundColor = Purple700)
                     }, floatingActionButton = {
                         FloatingActionButton(onClick = {
-                            Toast.makeText(
-                                context,
-                                getString(R.string.not_connected_to_internet),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            /*if (!isInternetConnected(context)) {
+                            if (!isInternetConnected(context)) {
                                 Toast.makeText(
                                     context,
                                     getString(R.string.not_connected_to_internet),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            viewModel.getWeatherDetails()*/
+                            viewModel.getWeatherDetails()
                         }, backgroundColor = Purple700) {
                             Icon(
-                                Icons.Default.Build,
+                                Icons.Default.Refresh,
                                 tint = Color.White,
                                 contentDescription = "Add"
                             )
@@ -68,8 +65,6 @@ class WeatherDetailsActivity : ComponentActivity() {
                     }
 
                     ) {
-                        //val state by viewModel.viewStates.collectAsState()
-                        //val events by viewModel.viewEvents.collectAsState(null)
                         when (val state = viewModel.viewStates.collectAsState().value) {
                             is WeatherDetailsViewModel.WeatherDetailsViewStates.WeatherDetails -> {
                                 WeatherDetail(state.weatherDetailsResponse)
@@ -81,7 +76,6 @@ class WeatherDetailsActivity : ComponentActivity() {
                                 LoadingIndicator(event.isShow)
                             }
                             is WeatherDetailsViewModel.WeatherDetailsViewStates.Error -> {
-                                Toast.makeText(context, event.error, Toast.LENGTH_SHORT).show()
                                 /***
                                  * We can use this event block to show error messages from api/server using a toast or composable
                                  * ***/

@@ -23,6 +23,10 @@ class WeatherDetailsViewModel @Inject constructor(
             WeatherDetailsViewStates()
     }
 
+    init {
+        getWeatherDetails()
+    }
+
     fun getWeatherDetails() {
         emitEvent(WeatherDetailsViewStates.Loading(true))
         viewModelScope.launch {
@@ -31,7 +35,7 @@ class WeatherDetailsViewModel @Inject constructor(
                 emitEvent(WeatherDetailsViewStates.Loading(false))
                 emitState(WeatherDetailsViewStates.WeatherDetails(localWeatherDetails))
             }
-            when (val result = remoteWeatherDetailsUseCase.invoke(31.5322138, 74.2846168)) {
+            when (val result = remoteWeatherDetailsUseCase.invoke(LATITUDE, LONGITUDE)) {
                 is NetworkResponse.Success -> {
                     emitEvent(WeatherDetailsViewStates.Loading(false))
                     emitState(WeatherDetailsViewStates.WeatherDetails(result.data))
@@ -42,5 +46,10 @@ class WeatherDetailsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        const val LATITUDE = 31.5322138
+        const val LONGITUDE = 74.2846168
     }
 }
