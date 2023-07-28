@@ -24,11 +24,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "IS_LOG_NETWORK_CALL", "false"
+        }
+        debug {
+            debuggable true
+            buildConfigField "Boolean", "IS_LOG_NETWORK_CALL", "true"
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding = true
     }
     kotlinOptions {
         jvmTarget = '1.8'
